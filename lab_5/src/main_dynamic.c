@@ -1,7 +1,7 @@
 // var16 foo1-3(PrimeCount) foo2-4(GCD) 1-make
 
-#include <stdio.h>
-#include <dlfcn.h> // dll manipulation
+#include <stdio.h>  // printf & scanf
+#include <dlfcn.h>  // dlopen & dlsym &dlerror & dlclose
 #include <stdlib.h> // EXIT_FAILURE & exit
 
 #define check_ans(foo, ok, msg) do { \
@@ -68,6 +68,6 @@ int main(int argc, char const *argv[])
 				return 0;
 		}
 	}
-
+	
 	return 0;
 }

@@ -4,8 +4,6 @@
 
 #include "lib5.h"
 
-
-
 int main(int argc, char const *argv[])
 {
 	int mode, a, b;
@@ -22,7 +20,6 @@ int main(int argc, char const *argv[])
 			default:
 				return 0;
 		}
-
 	}
 	return 0;
 }

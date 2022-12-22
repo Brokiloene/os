@@ -59,7 +59,7 @@ int main(int argc, char const *argv[])
 		shr_str->size = size;
 		memcpy(&shr_str->str, text, size);
 		check_err(sem_post(&shr_str->p_to_c1), "sem_post error");
-
+		/* waiting */
 		check_err(sem_wait(&shr_str->c2_to_p), "sem_wait error");
 		print(shr_str->str, shr_str->size);
 

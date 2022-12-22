@@ -18,6 +18,7 @@ int main(int argc, char const *argv[])
 	if (shr_str == MAP_FAILED) {check_err(-1, "mmap error")};
 
 	while(1) {
+		/* waiting */
 		check_err(sem_wait(&shr_str->p_to_c1), "sem_wait error");
 		if (shr_str->size == STOP) {
 			check_err(sem_post(&shr_str->c1_to_c2), "sem_post error");

@@ -145,9 +145,19 @@ int main(int argc, char const *argv[])
         	//printf("[%d]: %s %d %d %s\n", my_id, m.cmd, m.id, m.num, m.str);
         	//print_list(childs);
         	if (m.id == my_id) {
-	        	memcpy(&m.cmd, "ok", sizeof(char) * 10);
+	        	
 	        	find_substrings(&m);
-	        	send_msg(&m, responder);
+
+	        	//printf("[%d]: %ld\n", my_id, strlen(m.str));
+	        	if (strlen(m.str) == 0) {
+	        		memcpy(&m.cmd, "0 matches", sizeof(char) * 10);
+	        		send_msg(&m, responder);
+	        	} else {
+	        		memcpy(&m.cmd, "ok", sizeof(char) * 10);
+	        		send_msg(&m, responder);
+	        	}
+
+	        	
 	        } else if (list_find(childs, m.id) == 1 && ping(m.id) == 1) {
 	        	void *requester = zmq_socket(context, ZMQ_REQ);
 	        	char address[32];

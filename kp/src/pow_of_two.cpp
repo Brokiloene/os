@@ -13,7 +13,6 @@ pow_two_allocator::pow_two_allocator(std::vector<int> &blocks_amount) {
             free_blocks_lists[i].push_back(data_copy);
             *((int *)data_copy) = pows_of_two[i];
             data_copy += pows_of_two[i];
-            //std::cout << pows_of_two[i] << '\n';
         }
     }
 }
@@ -23,13 +22,9 @@ void *pow_two_allocator::allocate(int bytes_amount) {
         return nullptr;
     }
     bytes_amount += sizeof(int);
-    //std::cout << "free_blocks_lists.size = " << free_blocks_lists.size() << std::endl;
-    /*for (auto el : free_blocks_lists){
-        std::cout << el.size() << std::endl;
-    }*/
     int ind = -1;
     for (int i = 0; i < free_blocks_lists.size(); ++i) {
-        if (bytes_amount <= pows_of_two[i] && !free_blocks_lists[i].empty()) { // if requested amount of bytes is fit and such block exists
+        if (bytes_amount <= pows_of_two[i] && !free_blocks_lists[i].empty()) {
             ind = i;
             break;
         }

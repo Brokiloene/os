@@ -4,8 +4,6 @@ mckk_allocator::mckk_allocator(int pages_cnt, std::vector<int> &pages_fragments)
 
     free_blocks_lists = std::vector<std::list<char *>>(pows_of_two.size());
 
-    //std::cout << free_blocks_lists.size() << '\n';
-
     data = (char *) malloc(pages_cnt * PAGE_SIZE);
     char *cur_page_start = data;
     char *cur_page_end = cur_page_start + (PAGE_SIZE - 1);
@@ -41,13 +39,9 @@ void *mckk_allocator::allocate(int bytes_amount) {
         return nullptr;
     }
 
-    //std::cout << "1freeBlocksLists.size = " << free_blocks_lists.size() << std::endl;
-    /*for (auto el : free_blocks_lists){
-        std::cout << el.size() << std::endl;
-    }*/
     int ind = -1;
     for (int i = 0; i < free_blocks_lists.size(); ++i) {
-        if (bytes_amount <= pows_of_two[i] && !free_blocks_lists[i].empty()) { // if requested amount of bytes is fit and such block exists
+        if (bytes_amount <= pows_of_two[i] && !free_blocks_lists[i].empty()) {
             ind = i;
             break;
         }

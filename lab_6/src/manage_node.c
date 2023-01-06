@@ -18,15 +18,19 @@ int main(int argc, char const *argv[])
     List *childs = list_create();
     check_null(childs, "list_create error");
 
-    char cmd[10];
+    char cmd[10] = {'0'};
     int c;
     printf("> ");
+    fflush(stdout);
     while((c = getchar()) != EOF) {
+        printf("> ");
+        fflush(stdout);
+        
         ungetc(c, stdin);
 
         //printf("[mn]: list: ");
         //print_list(childs);
-        printf("> ");
+        
 
         scanf("%s", cmd);
         if (strcmp(cmd, "create") == 0) {
@@ -38,7 +42,7 @@ int main(int argc, char const *argv[])
 
 
             if (parent_id == -1) {
-                if (list_find(childs, id) == 1) {
+                if (list_find(childs, id) == 1 || echo(childs, id, requester) != -1) {
                     printf("bad child id\n"); 
                     continue;   
                 }
@@ -159,15 +163,22 @@ int main(int argc, char const *argv[])
             	//printf("145\n");
             	char address[32];
 	            client_address_gen(id, address);
-	            printf("[mn]: address=%s\n", address);
-	            //check_neg_one(zmq_connect(requester2, address), "zmq_connect error");
+	            //printf("[mn]: address=%s\n", address);
+	            check_neg_one(zmq_connect(requester2, address), "zmq_connect error");
 	            //printf("152\n");
 	            send_msg(&m, requester2);
 	            //printf("154\n");
 	            recv_msg(&m, requester2);
 	            //printf("156\n");
 
-           	 	printf("%s:\n%s \nproduced by [%d]\n", m.cmd, m.str, m.id);
+                if (strcmp(m.cmd, "ok") == 0) {
+                    printf("%s:\n%s \nproduced by [%d]\n", m.cmd, m.str, m.id);
+                } else if (strcmp(m.cmd, "0 matches") == 0) {
+                    printf("%s\n", m.cmd);
+                }
+
+
+           	 	//printf("%s:\n%s \nproduced by [%d]\n", m.cmd, m.str, m.id);
            	 	zmq_close(requester2);
             } else {
             	//printf("160\n");
@@ -199,6 +210,8 @@ int main(int argc, char const *argv[])
                 }
                 else if (strcmp(m.cmd, "ok") == 0) {
                     printf("%s:\n%s \nproduced by [%d]\n", m.cmd, m.str, m.id);
+                } else if (strcmp(m.cmd, "0 matches") == 0) {
+                    printf("%s\n", m.cmd);
                 }
             }
         	free(pattern);
